@@ -1,0 +1,43 @@
+#!/bin/bash
+set -e
+
+dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
+
+npm install
+export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+
+start(){
+  source $dir/../.envrc
+  forever start --uid chunta -a -l chunta.log --pidFile $dir/../tmp/chunta.pid -c coffee node_modules/.bin/hubot --name "chunta" --adapter slack
+  return 0
+}
+stop() {
+  forever stop chunta
+  return 0
+}
+status() {
+  forever list
+  return 0
+}
+
+# See how we were called.
+case "$1" in
+  start)
+    start
+    ;;
+  status)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    start
+    stop
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|status|restart}"
+    exit 2
+esac
+
+exit $?
