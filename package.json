@@ -5,6 +5,7 @@
   "author": "kibitan <uzukifirst@gmail.com>",
   "description": "A familiar bot",
   "dependencies": {
+    "forever": "^0.15.1",
     "hubot": "^2.17.0",
     "hubot-diagnostics": "0.0.1",
     "hubot-google-images": "^0.2.6",
