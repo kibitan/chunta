@@ -26,7 +26,7 @@ case "$1" in
     start
     ;;
   status)
-    start
+    status
     ;;
   stop)
     stop
