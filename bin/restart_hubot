@@ -1,0 +1,6 @@
+#!/bin/bash
+
+dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
+
+$dir/stop_hubot
+$dir/start_hubot

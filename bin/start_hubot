@@ -1,5 +1,10 @@
 #!/bin/bash
+set -e
+
 dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
 
+npm install
+export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+
 source $dir/../.envrc
-forever start -c coffee $dir/hubot --adapter slack
+forever start --uid chunta -c coffee node_modules/.bin/hubot --name "chunta" --adapter slack
