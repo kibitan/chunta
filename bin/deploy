@@ -1,6 +1,20 @@
 #!/bin/bash
 set -eu -o pipefail
+ask() {
+  printf "$* [y/n] "
+  local answer
+  read answer
+
+  case $answer in
+    "yes" ) return 0 ;;
+    "y" )   return 0 ;;
+    * )     return 1 ;;
+  esac
+}
+ask "deploy?"
+
 set -vx
+
 
 dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
 
