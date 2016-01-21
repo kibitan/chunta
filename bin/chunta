@@ -32,8 +32,8 @@ case "$1" in
     stop
     ;;
   restart)
-    start
     stop
+    start
     ;;
   *)
     echo $"Usage: $0 {start|stop|status|restart}"

@@ -2,3 +2,6 @@
 dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
 
 scp .envrc family:/var/www/chunta/
+ssh family <<-EOS
+  cd /var/www/chunta && git pull && bin/chunta restart
+EOS
