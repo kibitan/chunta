@@ -7,6 +7,8 @@ module.exports = (robot) ->
       text += ":heartbeat:"
     res.send text
   robot.hear /に！/i, (res) ->
-    res.send "た！:heart_eyes_cat:"
+    res.send "た:exclamation::heart_eyes_cat:"
   robot.hear /た！/i, (res) ->
-    res.send "に！:heart_eyes:"
+    res.send "に:exclamation::heart_eyes:"
+  robot.hear /ち？/i, (res) ->
+    res.send ":flushed::ghost:"
