@@ -12,3 +12,7 @@ module.exports = (robot) ->
     res.send "に:exclamation::heart_eyes:"
   robot.hear /ち？/i, (res) ->
     res.send ":flushed::ghost:"
+  robot.hear /ちゅ/i, (res) ->
+    res.send "ちゅ:kiss:"
+  robot.hear /たん/i, (res) ->
+    res.send "た:question::eyes:"
