@@ -25,5 +25,5 @@ module.exports = (robot) ->
       console.log device
       lat = device.location.latitude
       lon = device.location.longitude
-      res.reply 'http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:' + lat + '+' + lon
-      res.reply 'http://maps.google.com/maps?z=15&t=m&q=loc:' + lat + '+' + lon
+      res.send 'http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:' + lat + '+' + lon
+      res.send 'http://maps.google.com/maps?z=15&t=m&q=loc:' + lat + '+' + lon
