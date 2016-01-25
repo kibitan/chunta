@@ -1,4 +1,6 @@
 iPhoneFinder = require('iphone-finder')
+moment = require("moment")
+
 iCloud = {
   chika: {
     user: process.env.ICLOUD_CHIKA_USER,
@@ -22,8 +24,9 @@ module.exports = (robot) ->
       when "さと" then icloud = iCloud.sato
       else return
     iphone icloud, (device) ->
-      console.log device
       lat = device.location.latitude
       lon = device.location.longitude
-      res.reply 'http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:' + lat + '+' + lon
-      res.reply 'http://maps.google.com/maps?z=15&t=m&q=loc:' + lat + '+' + lon
+      date = moment( new Date(device.location.timeStamp) )
+      res.reply date.format("YYYY年MM月DD日 HH時mm分ss秒の場所")
+      res.reply "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
+      res.reply "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
