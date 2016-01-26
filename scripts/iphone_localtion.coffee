@@ -35,10 +35,10 @@ module.exports = (robot) ->
     iphone icloud, (device) ->
       lat = device.location.latitude
       lon = device.location.longitude
-      timestamp = moment( new Date(device.location.timeStamp) )
-      now = moment( new Date )
+      timestamp = moment( device.location.timeStamp )
+      elapsed_seconds = moment( new Date ).unix() - timestamp.unix()
 
-      res.send timestamp.format('LTS') + "時点" + "（#{now.unix() - timestamp.unix()}秒前）"
+      res.send "#{timestamp.format('LTS')}時点（#{elapsed_seconds}秒前）"
       res.send "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
       res.send "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
       reverse_geo_code lat, lon, (location) ->
