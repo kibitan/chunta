@@ -37,8 +37,8 @@ module.exports = (robot) ->
       timestamp = moment( new Date(device.location.timeStamp) )
       now = moment( new Date )
 
-      res.reply timestamp.format('LTS') + "時点" + "（#{now.unix() - timestamp.unix()}秒前）"
-      res.reply "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
-      res.reply "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
+      res.send timestamp.format('LTS') + "時点" + "（#{now.unix() - timestamp.unix()}秒前）"
+      res.send "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
+      res.send "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
       reverse_geo_code lat, lon, (location) ->
-        res.reply "〒#{location.postal} #{location.prefecture}#{location.city}#{location.town}（#{location.city_kana}#{location.town_kana}）"
+        res.send "〒#{location.postal} #{location.prefecture}#{location.city}#{location.town}（#{location.city_kana}#{location.town_kana}）"
