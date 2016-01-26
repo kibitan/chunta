@@ -50,6 +50,6 @@ module.exports = (robot) ->
   robot.respond /(.*)？/i, (res) ->
     switch res.match[1]
       when "ちか" then res.send 'ちかちゅはいま〜:trollface:'; icloud = iCloud.chika
-      when "さと" then res.send 'さとちゅは〜:eyes:'; icloud = iCloud.sato
+      when "さと" then res.send 'さとちゅはいま〜:eyes:'; icloud = iCloud.sato
       else return
     response_iphone_location(icloud, res)
