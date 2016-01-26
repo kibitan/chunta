@@ -1,5 +1,6 @@
 iPhoneFinder = require('iphone-finder')
-moment = require('moment-timezone')
+moment       = require('moment-timezone')
+sleep        = require('sleep-async')
 moment.locale('ja')
 moment.tz.setDefault('Asia/Tokyo')
 
@@ -14,11 +15,6 @@ iCloud = {
   }
 }
 
-iphone = (icloud, callback) ->
-  iPhoneFinder.findAllDevices icloud.user, icloud.pass, (err, devices) ->
-    for device in devices
-      return callback(device) if device.modelDisplayName == 'iPhone'
-
 module.exports = (robot) ->
   reverse_geo_code = (lat, lon, callback) ->
     robot.http("http://geoapi.heartrails.com/api/json?method=searchByGeoLocation&x=#{lon}&y=#{lat}")
@@ -27,19 +23,33 @@ module.exports = (robot) ->
         nearest_location = JSON.parse(body).response.location[0]
         callback(nearest_location)
 
-  robot.respond /(.*)？/i, (res) ->
-    switch res.match[1]
-      when "ちか" then icloud = iCloud.chika
-      when "さと" then icloud = iCloud.sato
-      else return
+  iphone = (icloud, callback) ->
+    iPhoneFinder.findAllDevices icloud.user, icloud.pass, (err, devices) ->
+      for device in devices
+        return callback(device) if device.modelDisplayName == 'iPhone'
+
+  response_iphone_location = (icloud, res) ->
     iphone icloud, (device) ->
       lat = device.location.latitude
       lon = device.location.longitude
       timestamp = moment( device.location.timeStamp )
       elapsed_seconds = moment( new Date ).unix() - timestamp.unix()
 
-      res.send "#{timestamp.format('LTS')}時点（#{elapsed_seconds}秒前）"
-      res.send "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
-      res.send "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
-      reverse_geo_code lat, lon, (location) ->
-        res.send "〒#{location.postal} #{location.prefecture}#{location.city}#{location.town}（#{location.city_kana}#{location.town_kana}）"
+      if elapsed_seconds >= 60 * 5
+        res.send 'o(=・ω・=o)=3=3=3=3=3=3'
+        sleep().sleep 2000, ->
+          # 再帰的呼び出し
+          response_iphone_location(icloud, res)
+      else
+        res.send "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
+        res.send "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
+        res.send "#{timestamp.format('LTS')}時点（#{elapsed_seconds}秒前）"
+        reverse_geo_code lat, lon, (location) ->
+          res.send "〒#{location.postal} #{location.prefecture}#{location.city}#{location.town}（#{location.city_kana}#{location.town_kana}）"
+
+  robot.respond /(.*)？/i, (res) ->
+    switch res.match[1]
+      when "ちか" then res.send 'ちかちゅはいま〜:trollface:'; icloud = iCloud.chika
+      when "さと" then res.send 'さとちゅは〜:eyes:'; icloud = iCloud.sato
+      else return
+    response_iphone_location(icloud, res)
