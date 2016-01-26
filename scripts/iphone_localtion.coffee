@@ -1,5 +1,6 @@
 iPhoneFinder = require('iphone-finder')
 moment = require("moment")
+moment.locale('ja')
 
 iCloud = {
   chika: {
@@ -36,7 +37,7 @@ module.exports = (robot) ->
       timestamp = moment( new Date(device.location.timeStamp) )
       now = moment( new Date )
 
-      res.reply timestamp.format('YYYY年MM月DD日HH時mm分ss秒時点') + "（#{now.unix() - timestamp.unix()}秒前）"
+      res.reply timestamp.format('LTS') + "時点" + "（#{now.unix() - timestamp.unix()}秒前）"
       res.reply "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
       res.reply "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
       reverse_geo_code lat, lon, (location) ->
