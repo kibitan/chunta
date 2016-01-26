@@ -18,6 +18,13 @@ iphone = (icloud, callback) ->
       return callback(device) if device.modelDisplayName == 'iPhone'
 
 module.exports = (robot) ->
+  reverse_geo_code = (lat, lon, callback) ->
+    robot.http("http://geoapi.heartrails.com/api/json?method=searchByGeoLocation&x=#{lon}&y=#{lat}")
+      .header('Accept', 'application/json')
+      .get() (err, res, body) ->
+        nearest_location = JSON.parse(body).response.location[0]
+        callback(nearest_location)
+
   robot.respond /(.*)？/i, (res) ->
     switch res.match[1]
       when "ちか" then icloud = iCloud.chika
@@ -32,3 +39,5 @@ module.exports = (robot) ->
       res.reply timestamp.format('YYYY年MM月DD日HH時mm分ss秒時点') + "（#{now.unix() - timestamp.unix()}秒前）"
       res.reply "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
       res.reply "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
+      reverse_geo_code lat, lon, (location) ->
+        res.reply "〒#{location.postal} #{location.prefecture}#{location.city}#{location.town}（#{location.city_kana}#{location.town_kana}）"
