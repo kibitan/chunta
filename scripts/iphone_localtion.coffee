@@ -1,7 +1,7 @@
 iPhoneFinder = require('iphone-finder')
 moment = require('moment-timezone')
 moment.locale('ja')
-moment.tz.setDefault('JST')
+moment.tz.setDefault('Asia/Tokyo')
 
 iCloud = {
   chika: {
