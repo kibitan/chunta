@@ -10,6 +10,8 @@ module.exports = (robot) ->
     res.send "た:exclamation::heart_eyes_cat:"
   robot.hear /た！/i, (res) ->
     res.send "に:exclamation::heart_eyes:"
+  robot.hear /ち！/i, (res) ->
+    res.send "ち:exclamation::hamster:"
   robot.hear /ち？/i, (res) ->
     res.send ":flushed::ghost:"
   robot.hear /ちゅ/i, (res) ->
