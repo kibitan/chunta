@@ -20,3 +20,5 @@ module.exports = (robot) ->
     res.send "た:question::eyes:"
   robot.hear /さと/i, (res) ->
     res.send "さとちゅん:heartpulse:"
+  robot.hear /ちか/i, (res) ->
+    res.send ":eyes:"
