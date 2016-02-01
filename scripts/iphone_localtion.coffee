@@ -26,10 +26,13 @@ module.exports = (robot) ->
   iphone = (icloud, callback) ->
     iPhoneFinder.findAllDevices icloud.user, icloud.pass, (err, devices) ->
       for device in devices
-        return callback(device) if device.modelDisplayName == 'iPhone'
+        return callback(err, device) if device.modelDisplayName == 'iPhone'
 
   response_iphone_location = (icloud, res) ->
-    iphone icloud, (device) ->
+    iphone icloud, (err, device) ->
+      unless device.location?
+        return res.send "エラーだっち:cry: もう一回!:muscle: #{err}"
+
       lat = device.location.latitude
       lon = device.location.longitude
       timestamp = moment( device.location.timeStamp )
