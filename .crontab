@@ -1,0 +1,1 @@
+0 * * * * cd /var/www/chunta/ && bin/chunta restart
