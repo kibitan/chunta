@@ -1,5 +1,6 @@
+child_process = require('child_process')
+
 module.exports = (robot) ->
-  child_process = require('child_process')
   tail_log = (n) ->
     return child_process.execSync "tail -n #{n} #{process.env.LOGFILE_PATH}"
 
