@@ -11,6 +11,11 @@ ask() {
     * )     return 1 ;;
   esac
 }
+
+if ask "git push?"; then
+  git push
+fi
+
 ask "deploy?"
 
 set -vx
