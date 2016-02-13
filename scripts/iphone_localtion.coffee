@@ -37,7 +37,6 @@ module.exports = (robot) ->
       lon = device.location.longitude
       timestamp = moment( device.location.timeStamp )
       elapsed_seconds = moment( new Date ).unix() - timestamp.unix()
-      device.location = null
 
       if !device.location? or elapsed_seconds >= 60 * 5
         res.send 'o(=・ω・=o)=3=3=3=3=3=3'
