@@ -4,7 +4,7 @@ set -e
 dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
 
 npm install
-export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+export PATH="/usr/local/bin:node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
 start(){
   source $dir/../.envrc

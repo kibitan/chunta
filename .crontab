@@ -1,1 +1,2 @@
+PATH=/usr/local/bin:$PATH
 0 * * * * cd /var/www/chunta/ && bin/chunta restart
