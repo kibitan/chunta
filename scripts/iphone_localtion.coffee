@@ -28,21 +28,22 @@ module.exports = (robot) ->
       for device in devices
         return callback(err, device) if device.modelDisplayName == 'iPhone'
 
-  response_iphone_location = (icloud, res) ->
+  max_attempt_count = 5
+  response_iphone_location = (icloud, res, attempt_count=0) ->
+    if attempt_count >= max_attempt_count
+      return res.send "エラーだっち:cry: もう一回!:muscle:"
     iphone icloud, (err, device) ->
-      unless device.location?
-        return res.send "エラーだっち:cry: もう一回!:muscle: #{err}"
-
       lat = device.location.latitude
       lon = device.location.longitude
       timestamp = moment( device.location.timeStamp )
       elapsed_seconds = moment( new Date ).unix() - timestamp.unix()
+      device.location = null
 
-      if elapsed_seconds >= 60 * 5
+      if !device.location? or elapsed_seconds >= 60 * 5
         res.send 'o(=・ω・=o)=3=3=3=3=3=3'
         sleep().sleep 2000, ->
           # 再帰的呼び出し
-          response_iphone_location(icloud, res)
+          response_iphone_location(icloud, res, attempt_count+1)
       else
         res.send "http://maps.google.com/maps/api/staticmap?size=400x400&maptype=roadmap&format=png&markers=loc:#{lat}+#{lon}"
         res.send "http://maps.google.com/maps?z=15&t=m&q=loc:#{lat}+#{lon}"
