@@ -33,9 +33,10 @@ module.exports = (robot) ->
     if attempt_count >= max_attempt_count
       return res.send "エラーだっち:cry: もう一回!:muscle:"
     iphone icloud, (err, device) ->
-      lat = device.location.latitude
-      lon = device.location.longitude
-      timestamp = moment( device.location.timeStamp )
+      location = (device.location || {})
+      lat = location.latitude
+      lon = location.longitude
+      timestamp = moment( location.timeStamp )
       elapsed_seconds = moment( new Date ).unix() - timestamp.unix()
 
       if !device.location? or elapsed_seconds >= 60 * 5
