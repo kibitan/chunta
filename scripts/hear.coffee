@@ -22,3 +22,10 @@ module.exports = (robot) ->
     res.send "さとちゅん:heartpulse:"
   robot.hear /ちか/i, (res) ->
     res.send ":eyes:"
+  robot.hear /帰る/i, (res) ->
+    res.send ":frog:"
+  gohan = [':rice:', ':stew:', ':ramen:', ':curry:', ':rice_ball:', ':oden:']
+  robot.hear /ご飯/i, (res) ->
+    res.send res.random gohan
+  robot.hear /ごはん/i, (res) ->
+    res.send res.random gohan
