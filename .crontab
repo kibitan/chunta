@@ -1,2 +1,1 @@
-PATH=/usr/local/bin:$PATH
 */5 * * * * cd /var/www/chunta/; bin/chunta slack_status || bin/chunta restart

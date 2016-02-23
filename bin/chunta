@@ -4,8 +4,8 @@ set -e
 dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
 source $dir/../.envrc
 
-npm install
 export PATH="/usr/local/bin:node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+npm install
 
 start(){
   HUBOT_LOG_LEVEL=debug LOGFILE_PATH=~/.forever/chunta.log \
