@@ -2,12 +2,12 @@
 set -e
 
 dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
+source $dir/../.envrc
 
 npm install
 export PATH="/usr/local/bin:node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
 start(){
-  source $dir/../.envrc
   HUBOT_LOG_LEVEL=debug LOGFILE_PATH=~/.forever/chunta.log \
     forever start --uid chunta -a -l chunta.log \
     --pidFile $dir/../tmp/chunta.pid -c coffee \
@@ -22,6 +22,16 @@ status() {
   forever list
   return 0
 }
+slack_status() {
+  api_status=$(curl "https://slack.com/api/users.getPresence?token=$SLACK_TOKEN&user=$HUBOT_USER_ID" | jq  -r '.presence')
+  echo $api_status
+
+  if [[ $api_status == 'active' ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
 
 # See how we were called.
 case "$1" in
@@ -31,6 +41,9 @@ case "$1" in
   status)
     status
     ;;
+  slack_status)
+    slack_status
+    ;;
   stop)
     stop
     ;;
@@ -39,7 +52,7 @@ case "$1" in
     start
     ;;
   *)
-    echo $"Usage: $0 {start|stop|status|restart}"
+    echo $"Usage: $0 {start|stop|status|slack_status|restart}"
     exit 2
 esac
 
