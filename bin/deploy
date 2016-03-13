@@ -12,6 +12,18 @@ ask() {
   esac
 }
 
+dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
+cd $dir/..
+
+if ask "es6 compile?"; then
+  bin/bebel
+  git status
+  if ask "git commit scripts/*.js?"; then
+    git add scripts/*.js
+    git commit -m 'compile es6'
+  fi
+fi
+
 if ask "git push?"; then
   git push
 fi
@@ -19,9 +31,6 @@ fi
 ask "deploy?"
 
 set -vx
-
-
-dir="$(cd "$(dirname "${BASH_SOURCE:-${(%):-%N}}")"; pwd)"
 
 scp .envrc family:/var/www/chunta/
 ssh family <<-EOS
