@@ -9,7 +9,6 @@ if [[ $(node -v) != 'v5.6.0' ]]; then
   exit 1
 fi
 
-
 export PATH="/usr/local/bin:node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 npm install --production
 

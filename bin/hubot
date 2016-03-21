@@ -2,6 +2,11 @@
 
 set -e
 
+if [[ $(node -v) != 'v5.6.0' ]]; then
+  echo 'node version should be v5.6.0'
+  exit 1
+fi
+
 npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
