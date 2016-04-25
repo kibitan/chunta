@@ -1,1 +1,2 @@
 */4 * * * * cd /var/www/chunta/; bin/chunta slack_status > /dev/null 2>&1 || bin/chunta restart
+* */4 * * * cd /var/www/chunta/; bin/chunta restart
