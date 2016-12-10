@@ -32,6 +32,8 @@ ask "deploy?"
 
 set -vx
 
+ssh-add $GITHUB_SSH_KEY_FILE
+
 scp .envrc family:/var/www/chunta/
 ssh family <<-EOS
   cd /var/www/chunta
